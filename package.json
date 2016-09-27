@@ -1,0 +1,21 @@
+{
+  "name": "code-for-philly",
+  "version": "1.0.0",
+  "description": "Demo",
+  "main": "index.js",
+  "scripts": {
+    "start": "python -m 'SimpleHTTPServer'",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/songawee/code-for-philly.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/songawee/code-for-philly/issues"
+  },
+  "homepage": "https://github.com/songawee/code-for-philly#readme"
+}

@@ -1,0 +1,350 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="css/reveal.css">
+        <link rel="stylesheet" href="css/theme/white.css">
+        <style>
+          .docker .reveal img {
+            border: 0;
+            box-shadow: none;
+          }
+
+          .logo body {
+            background: #78bdf2;
+          }
+
+          .logo body section.finish {
+            color: white;
+          }
+
+          .logo body section.finish h1 {
+            color: white;
+          }
+
+          .takeout body {
+            background: #968cc6;
+          }
+
+          .replicated body {
+            background: rgba(254, 0, 0, 1);
+          }
+
+          .title-top img.waffle, .title-bottom img.waffle-title {
+            border: 0;
+            box-shadow: none;
+          }
+
+          .title-bottom img.waffle-title {
+            position: relative;
+            left: 13px;
+          }
+
+          p.small {
+            font-size: 75%;
+          }
+
+          div.bottom {
+            margin-top: 40px;
+          }
+        </style>
+    </head>
+    <body class="docker">
+        <div class="reveal">
+            <div class="slides">
+                <section>
+                  <h1>Moving from SaaS <br />to On-Premises with Docker</h1>
+                  <p><a href="https://twitter.com/songawee">@songawee</a></p>
+                </section>
+                <section data-state="logo">
+                  <div class="title-top">
+                    <img class="waffle" src="images/waffle-yellow-on-blue.png" width="400" />
+                  </div>
+                  <div class="title-bottom">
+                    <img class="waffle-title" src="images/waffle_logo.png" width="600"/>
+                  </div>
+                </section>
+                <section>
+                  <img src="images/board_animated.gif" />
+                </section>
+                <section>
+                  <h1>Why On-Premises?</h1>
+                </section>
+                <section>
+                  <h2>Solving the right problem</h2>
+                  <div>
+                    <p class="fragment" data-fragment-index="0">Users want to use Waffle at work, but cannot access SaaS</p>
+                    <h4 class="fragment" data-fragment-index="1">Integrate with</4>
+                    <div class="img-holder">
+                      <img class="fragment" data-fragment-index="1" src="images/gh_e.jpeg" width="300"/>
+                    </div>
+                  </div>
+                </section>
+                <section data-state="takeout">
+                  <img src="images/takeout.png" width="450" />
+                  <div class="takeout-title">
+                    <img src="images/takeout_logo.png" width="700" />
+                  </div>
+                </section>
+                <section>
+                  <h1>The Challenge</h1>
+                  <ul>
+                    <li class="fragment" data-fragment-index="1">Package the app</li>
+                    <li class="fragment" data-fragment-index="2">Deliver said package</li>
+                    <li class="fragment" data-fragment-index="4">Install the app on the host machine
+                      <ul>
+                        <li class="fragment" data-fragment-index="5">Configure the app to actually work against GH:E</li>
+                      </ul>
+                    </li>
+                    <li class="fragment" data-fragment-index="6">Start everything up
+                      <ul>
+                        <li class="fragment" data-fragment-index="7">Handle HTTP traffic between services</li>
+                      </ul>
+                    </li>
+                  </ul>
+                  <p class="fragment" data-frament-index="8">Bonus: updates and licensing</p>
+                </section>
+                <section>
+                  <img src="images/wat.jpg" width="425"/>
+                </section>
+                <section>
+                  <h1>Microservice Architecture</h1>
+                  <ul class="fragment">
+                    <li>App</li>
+                    <li>Api</li>
+                    <li>Webhooks</li>
+                    <li>etc.</li>
+                  </ul>
+                </section>
+                <section>
+                  <h1>Microservice Architecture</h1>
+                  <div class="fragment">
+                    <p>+ Each service could be neatly packaged and run on its own</p>
+                    <p>- Networking was challenging</p>
+                  </div>
+                </section>
+                <section>
+                  <h1><a href="http://12factor.net/">12 factor app</a></h1>
+
+                  <ul class="fragment">
+                    <li>Can be configured by env variables
+                      <ul>
+                        <li>Configure which GitHub API to use</li>
+                        <li>Configure which database to use</li>
+                        <li>Configure location of services</li>
+                      </ul>
+                    </li>
+                  </ul>
+                </section>
+                <section>
+                  <h1>Networking</h1>
+                  <p class="fragment">Added NGINX* for HTTP routing</p>
+                  <p class="fragment small">*This would require users to open up various sub-domains for Waffle to work</p>
+                </section>
+                <section>
+                  <h1>Packaging</h1>
+                  <p class="fragment" data-fragment-index="0">VMs</p>
+                  <p class="fragment" data-fragment-index="1">Docker</p>
+                </section>
+                <section>
+                  <h1>Packaging</h1>
+                  <p>Each service got a Dockerfile</p>
+                  <p>Each service got a <a href="https://quay.io">quay.io</a> repository</p>
+                  <p>Each repository had a git trigger to build new images</p>
+                  <h4 class="fragment">Development didn't really change</h4>
+                </section>
+                <section>
+                  <h1>Packaging</h1>
+                  <h3 class="fragment">Delivery</h3>
+                  <p class="fragment">Users download a package</p>
+                  <ul>
+                    <li class="fragment">S3 bucket, email, etc.</li>
+                  </ul>
+                  <p class="fragment">Follow instructions for installation and configuration</p>
+                </section>
+                <section>
+                  <h1>Packaging</h1>
+                  <div class="fragment">
+                    <p>Docker save:</p>
+                    <p>"Save one or more images to a tar archive"</p>
+                  </div>
+                  <p class="fragment">Incorporated a bash build script to generate a tarball</p>
+                </section>
+                <section>
+                  <h1>Installation</h1>
+                  <p class="fragment">Users download and extract tarball</p>
+                  <p class="fragment">Users execute 400 line bash installation script</p>
+                  <p class="fragment">Users configured the following types of information:</p>
+                  <ul class="fragment">
+                    <li>GitHub OAuth credentials</li>
+                    <li>Database connection</li>
+                    <li>Service locations</li>
+                    <li>etc...</li>
+                  </ul>
+                </section>
+                <section>
+                  <h1>Up and running!</h1>
+                  <h4 class="fragment">not so fast...</h4>
+                </section>
+                <section>
+                  <h1>Drawbacks</h1>
+                  <ul>
+                    <li>Bring Your Own Database
+                      <ul>
+                        <li>Backups were on your own</li>
+                      </ul>
+                    </li>
+                    <li>Networking was a pain
+                      <ul>
+                        <li>Had to open up sub-domains on host network</li>
+                        <li>Needed to save off locations in an environment.list file</li>
+                      </ul>
+                    </li>
+                    <li>Updates were new tarballs with update bash scripts</li>
+                    <li>Licensing would have to be built separately</li>
+                  </ul>
+                </section>
+                <section>
+                  <h1>Not all bad</h1>
+                  <ul>
+                    <li>We were On-Prem!
+                      <ul>
+                        <li>Maintainable by a small team</li>
+                        <li>App development hadn't really changed</li>
+                        <li>Some automation</li>
+                        <li>The use of Docker was validated by our users</li>
+                      </ul>
+                    </li>
+                  </ul>
+                  <p class="fragment">Room for improvement...</p>
+                </section>
+                <section data-state="replicated">
+                  <img src="images/replicated.png" />
+                </section>
+                <section>
+                  <h1>Benefits</h1>
+                  <ul>
+                    <li>Several features out of the box
+                      <ul>
+                        <li class="fragment">Backups</li>
+                        <li class="fragment">Declarative Configuration</li>
+                        <li class="fragment">Licensing</li>
+                        <li class="fragment">Updates</li>
+                      </ul>
+                    </li>
+                  </ul>
+                </section>
+                <section>
+                  <h1>Replicated</h1>
+<pre>
+  <code>
+components:
+  - name: App
+    containers:
+    - source: quay.io
+      image_name: app
+      version: latest
+components:
+  - name: API
+    containers:
+    - source: quay.io
+      image_name: api
+      version: latest
+  </code>
+</pre>
+                </section>
+                <section>
+                  <h1>Replicated</h1>
+<pre>
+  <code>
+volumes:
+   - host_path: /data
+     container_path: /data
+     permission: "0644"
+     owner: "100"
+     is_ephemeral: false
+     is_excluded_from_backup: true
+  </code>
+</pre>
+                </section>
+                <section>
+                  <h1>Replicated</h1>
+                  <img src="images/dashboard.png" width="1000" />
+                </section>
+                <section>
+                  <h1>Replicated</h1>
+                  <div>
+                    <p>Retire bash scripts in favor of UI based configuration</p>
+                    <img src="images/settings.png" width="800"/>
+                  </div>
+                </section>
+                <section>
+                  <h1>Benefits</h1>
+                  <p class="fragment">Continue to use Docker infrastructure</p>
+                </section>
+                <section>
+                  <h1>#Winning</h1>
+                  <img src="images/winning.gif" width="500"/>
+                </section>
+                <section>
+                  <h1>Further improvements</h1>
+                  <ul>
+                    <li class="fragment">Packaged a MongoDB instance</li>
+                    <li class="fragment">Configured NGINX to route to components on the docker0 network</li>
+                    <li class="fragment">Support Airgap installations</li>
+                  </ul>
+                </section>
+                <section>
+                  <h1>What worked?</h1>
+                  <ul>
+                    <li>Relying on Docker technology and infrastructure
+                      <ul>
+                        <li>Build, package, tag our services</li>
+                        <li>Utilize features such as docker0 network and route our services to the right ports</li>
+                        <li>Publish our application to a wide variety of host machines</li>
+                        <li>Develop the same way while swapping infrastructure</li>
+                      </ul>
+                    </li>
+                    <li>Building out a well structured Microservice Architecture</li>
+                  </ul>
+                </section>
+                <section>
+                  <h1>What we learned</h1>
+                  <ul>
+                    <li class="fragment">On-Prem is possible without too much pain
+                      <ul>
+                        <li class="fragment">Can provide real value to customers</li>
+                      </ul>
+                    </li>
+                    <li class="fragment">Docker is great for developers, not just great for development</li>
+                  </ul>
+                </section>
+                <section>
+                  <h1>The Future</h1>
+                  <ul>
+                    <li class="fragment">Exicted to take Docker from Takeout to our CI/CD systems as well as production
+                      <ul>
+                        <li>Move from Heroku to the Amazon EC2 Container Service</li>
+                      </ul>
+                    </li>
+                    <li class="fragment">Continuously deploy On-Prem releases</li>
+                  </ul>
+                </section>
+                <section class="finish" data-state="logo">
+                  <h1>Thanks!</h1>
+                  <div class="title-top">
+                    <img class="waffle" src="images/waffle-yellow-on-blue.png" width="350" />
+                  </div>
+                  <p>@songawee</p>
+                  <div class="bottom">
+                    <p class="small">p.s. we're hiring DevOps</p>
+                  </div>
+                </section>
+            </div>
+        </div>
+        <script src="js/reveal.min.js"></script>
+        <script>
+            Reveal.initialize({
+              history: true
+            });
+        </script>
+    </body>
+</html>
