@@ -13,6 +13,11 @@
             box-shadow: none;
           }
 
+          .reveal .clean-image img.wafflebot {
+            position: relative;
+            left: 30px;
+          }
+
           .logo body {
             background: #78bdf2;
           }
@@ -79,6 +84,11 @@
                       </ul>
                     </li>
                   </ul>
+                </section>
+                <section>
+                  <h1>What is Git?</h1>
+                  <p class="clean-image"><img src="/images/git_commit.png" width="750" /></p>
+                  <p><em>example git commit</em></p>
                 </section>
                 <section>
                   <h1>What is Git?</h1>
@@ -161,7 +171,14 @@
                     <li class="fragment">Limit the tasks in progress</li>
                     <li class="fragment">Be flexible with change</li>
                     <li class="fragment">Continuous iteration</li>
-                    <li class="fragment">Collaborate</li>
+                    <li class="fragment">Short iterative cycles</li>
+                  </ul>
+                </section>
+                <section>
+                  <h1>Metrics</h1>
+                  <ul>
+                    <li class="fragment">Estimation/Sizing</li>
+                    <li class="fragment"><a href="https://en.wikipedia.org/wiki/Throughput">Throughput</a></li>
                   </ul>
                 </section>
                 <section>
@@ -169,15 +186,6 @@
                   <ul>
                     <li class="fragment">Daily Standups using Waffle.io</li>
                     <li class="fragment">Weekly Planning</li>
-                    <li class="fragment">Estimation/Sizing</li>
-                  </ul>
-                </section>
-                <section>
-                  <h3>How we work at Waffle.io</h3>
-                  <p>Daily Standups using Waffle.io</p>
-                  <ul>
-                    <li class="fragment">Walk the board...</li>
-                    <li class="fragment">Bring in issues from users</li>
                   </ul>
                 </section>
                 <section>
@@ -195,6 +203,16 @@
                   <h3>How we work at Waffle.io</h3>
                   <p class="fragment">Associating many pieces of work to one issue</p>
                   <p class="clean-image fragment"><img src="images/needs_review.png" width="400" /></p>
+                </section>
+                <section>
+                  <h3>How we work at Waffle.io</h3>
+                  <p class="clean-image"><img src="/images/associate_pr.png" width="1000" /></p>
+                </section>
+                <section>
+                  <h3>How we work at Waffle.io</h3>
+                  <p><em>connect</em> will associate that pr to that issue</p>
+                  <p><em>closes</em> will close the issue when the pr is merged</p>
+                  <p><a href="https://help.waffle.io/hc/en-us/articles/225549267-Use-Waffle-s-Connect-Keyword-to-Connect-PR-s-to-Issues">more info...</a></p>
                 </section>
                 <section>
                   <h1>Demo <br />Cross Repository!</h1>
@@ -221,7 +239,8 @@
                 </section>
                 <section>
                   <h1>WaffleBot!</h1>
-                  <p class="clean-image"><img src="images/wafflebot.gif" width="650" /></p>
+                  <p><a href="https://github.com/integration/wafflebot">Install Wafflebot</a></p>
+                  <p class="clean-image"><img class="wafflebot" src="images/wafflebot.gif" width="550" /></p>
                 </section>
                 <section>
                   <h1>Demo <br />WaffleBot!</h1>
